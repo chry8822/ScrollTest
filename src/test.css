@@ -1,0 +1,12 @@
+
+li {
+  flex-direction: row;
+  border-bottom: 1px solid #ccc;
+  font-size: 0.8em;
+  color: #999;
+  list-style: none;
+}
+
+h2 {
+  color: #000;
+}

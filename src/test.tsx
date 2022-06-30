@@ -5,10 +5,13 @@ const list = require("./data.json")
 
 const Test = () => {
   const [data, setData] = useState(list);
-  const observerRef = useRef(null);
+  const [scrollTest, setScrollTest] = useState(false)
+  const observerRef = useRef<any>(null);
 
   useEffect(() => {
-    window.scrollTo (0,0)
+    if(!scrollTest) {
+      window.scrollTo (0,0)
+    }
     if (observerRef.current) {
       console.log('observer 등록')
       let options = {
@@ -16,12 +19,15 @@ const Test = () => {
         rootMargin: '0px',
         threshold: 0
       }
+
+      
       
       const observer = new IntersectionObserver(callback, options);
       observer.observe(observerRef.current)  
     }
   }, [observerRef.current])
  // 렌더링된 마지막 아이템이 current 에 담기면 observer 생성하고 해당 current 감시
+
 
   
   // 옵저브 걸어놓은 엘리먼트가 발견되면 콜백 실행
@@ -32,7 +38,8 @@ const Test = () => {
         // 엘리먼트가 뷰포트에 진입함(감시되는 엘리먼트가 option에 설정한 위치에 도달하면)
         console.log('oveserved');
         observer.unobserve(observerRef.current); // 기존에 걸려있는거 observer 해제
-        setData(data.concat(list)); // 기존 데이터에 list 를 붙임
+        // setData(data.concat(list)); // 기존 데이터에 list 를 붙임
+        setScrollTest(true)
       }
     });
   }, [data])
@@ -57,7 +64,7 @@ const Test = () => {
                   // 조건이 맞지 않으면 ref가 없는 일반 엘리먼트 렌더
                   <li key={`${index}`}>
                     <div>{item.id}</div>
-                    <h2>{item.gender}</h2>
+                    <h2>{scrollTest && "스크롤 성공"}</h2>
                     <h3>{item.email}</h3>
                   </li>
                 )
